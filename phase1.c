@@ -184,9 +184,9 @@ void thirdmenu()
                     printf("%s\n", respond2);
 			counter++;
 		}
-		    if(!counter)
-			    printf("Not found\n");
             }
+		if(!counter)
+			printf("Not found\n");
             continue;
         }
         printf("incorrect input\n");
