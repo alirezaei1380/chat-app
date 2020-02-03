@@ -12,9 +12,10 @@
 char respond1[1000], respond2[1000], authtoken[200];
 int choose, menu, stay;
 int client_socket;
+
 void thirdmenu()
 {
-    system("color 4");
+    system("color 34");
     stay = 0;
     while(!stay)
     {
@@ -127,7 +128,13 @@ void thirdmenu()
             system("cls");
             printf("enter user's name\n(with no space)\n");
             char *temp = malloc(100);
-            scanf("%s", temp);
+            int c = getchar();
+            scanf("%[^\n]s", temp);
+            if(strchr(temp, ' '))
+            {
+                printf("wrong input\n");
+                continue;
+            }
             memset(respond1, 0, 1000);
             sprintf(respond1, "search user %s, %s", temp, authtoken);
             myconnect();
@@ -147,7 +154,13 @@ void thirdmenu()
             system("cls");
             printf("enter message\n(it's a word so you can't enter space)\n");
             char *mytemp = malloc(100);
-            scanf("%s", mytemp);
+            int c = getchar();
+            scanf("%[^\n]s", mytemp);
+            if(strchr(mytemp, ' '))
+            {
+                printf("wrong input\n");
+                continue;
+            }
             memset(respond1, 0, 1000);
             sprintf(respond1, "search message %s, %s", mytemp, authtoken);
             myconnect();
@@ -176,7 +189,7 @@ void thirdmenu()
 
 void secondmenu()
 {
-    system("color 1");
+    system("color 56");
     menu = 0;
     while(!menu)
     {
@@ -187,8 +200,14 @@ void secondmenu()
         {
             system("cls");
             printf("enter the name of your new channel(with no space)\n");
+            int c = getchar();
             char channel_name[200];
-            scanf("%s", channel_name);
+            scanf("%[^\n]s", channel_name);
+            if(strchr(channel_name, ' '))
+            {
+                printf("wrong input\n");
+                continue;
+            }
             memset(respond1, 0, 1000);
             sprintf(respond1, "create channel %s, %s", channel_name, authtoken);
             myconnect();
@@ -214,7 +233,12 @@ void secondmenu()
             printf("enter the name of your channel(with no space)\n");
             char d = getchar();
             char channel_name2[200];
-            scanf("%s", channel_name2);
+            scanf("%[^\n]s", channel_name2);
+            if(strchr(channel_name2, ' '))
+            {
+                printf("wrong input\n");
+                continue;
+            }
             memset(respond1, 0, 1000);
             sprintf(respond1, "join channel %s, %s", channel_name2, authtoken);
             myconnect();
@@ -260,7 +284,7 @@ void secondmenu()
 
 void firstmenu(void)
 {
-    system("color 2");
+    system("color 21");
     choose = 0;
     while(!choose)
     {
@@ -274,9 +298,21 @@ void firstmenu(void)
             char * username1 = malloc(200);
             char * password1 = malloc(200);
             printf("enter your username(with no space)\n");
-            scanf("%s", username1);
+            int c = getchar();
+            scanf("%[^\n]s", username1);
+            if(strchr(username1, ' '))
+            {
+                printf("wrong input\n");
+                continue;
+            }
             printf("enter your password(with no space)\n");
-            scanf("%s", password1);
+            int d = getchar();
+            scanf("%[^\n]s", password1);
+            if(strchr(password1, ' '))
+            {
+                printf("wrong input\n");
+                continue;
+            }
             sprintf(respond1, "register %s, %s", username1, password1);
             myconnect();
             send(client_socket, respond1, strlen(respond1), 0);
@@ -297,9 +333,21 @@ void firstmenu(void)
             char * username2 = malloc(200);
             char * password2 = malloc(200);
             printf("enter your username(with no space)\n");
-            scanf("%s", username2);
+            int c = getchar();
+            scanf("%[^\n]s", username2);
+            if(strchr(username2, ' '))
+            {
+                printf("wrong input\n");
+                continue;
+            }
             printf("enter your password(with no space)\n");
-            scanf("%s", password2);
+            int d = getchar();
+            scanf("%[^\n]s", password2);
+            if(strchr(password2, ' '))
+            {
+                printf("wrong input\n");
+                continue;
+            }
             sprintf(respond1, "login %s, %s", username2, password2);
             myconnect();
             send(client_socket, respond1, strlen(respond1), 0);

@@ -205,6 +205,7 @@ void myjoinchannel()
             }
             else
             {
+                number[i] = 0;
                 fclose(channel);
                 cJSON* answer = cJSON_CreateObject();
                 cJSON* type = cJSON_CreateString("Successful");
