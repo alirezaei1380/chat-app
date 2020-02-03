@@ -172,6 +172,7 @@ void thirdmenu()
             strcpy(respond1,yr->valuestring);
             cJSON *messages = cJSON_GetObjectItem(qr, "content");
             printf("%s:\n", respond1);
+		int counter = 0;
             for(int i = 0; i < cJSON_GetArraySize(messages); i++)
             {
                 memset(respond2, 0, 1000);
@@ -179,7 +180,12 @@ void thirdmenu()
                 cJSON *yu = cJSON_GetObjectItem(ty, "content");
                 strcpy(respond2, yu->valuestring);
                 if(strstr(respond2, mytemp))
+		{
                     printf("%s\n", respond2);
+			counter++;
+		}
+		    if(!counter)
+			    printf("Not found\n");
             }
             continue;
         }
