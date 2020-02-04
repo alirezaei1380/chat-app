@@ -146,6 +146,35 @@ void mycreatechannel()
                 printf("%s\n", respond2);
                 current[i] = malloc(100);
                 strcpy(current[i], channelname);
+                char temp3[200];
+                sprintf(temp3, "%s.channel.json", current[i]);
+            char *all = malloc(1000);
+            memset(all, 0, 1000);
+            FILE *file = fopen(temp3, "r");
+            for(int j = 0; !feof(file); j++)
+                all[j] = fgetc(file);
+            fclose(file);
+            cJSON *channel = cJSON_Parse(all);
+            cJSON *messages = cJSON_GetObjectItem(channel, "messages");
+            cJSON *mymessage = cJSON_CreateObject();
+            cJSON *sender = cJSON_CreateString("server");
+            cJSON_AddItemToObject(mymessage, "sender", sender);
+            char temp6[200];
+            sprintf(temp6, "%s just joined", names[i]);
+            cJSON *mycontent = cJSON_CreateString(temp6);
+            cJSON_AddItemToObject(mymessage, "content", mycontent);
+            cJSON_AddItemToArray(messages, mymessage);
+            cJSON *mname = cJSON_GetObjectItem(channel, "name");
+            char *myname = cJSON_Print(mname);
+            myname[strlen(myname) - 1] = 0;
+            cJSON *fname = cJSON_CreateString(&myname[1]);
+            cJSON *mychannel = cJSON_CreateObject();
+            cJSON_AddItemToObject(mychannel, "name", fname);
+            cJSON_AddItemToObject(mychannel, "messages", messages);
+            char *temp5 = cJSON_Print(mychannel);
+            file = fopen(temp3, "w");
+            fprintf(file, "%s", temp5);
+            fclose(file);
             }
             else
             {
@@ -218,6 +247,35 @@ void myjoinchannel()
                 printf("%s\n", respond2);
                 current[i] = malloc(100);
                 strcpy(current[i], channelname);
+                char temp3[200];
+                sprintf(temp3, "%s.channel.json", current[i]);
+                char *all = malloc(5000);
+                memset(all, 0, 5000);
+                FILE *file = fopen(temp3, "r");
+                for(int j = 0; !feof(file); j++)
+                    all[j] = fgetc(file);
+                fclose(file);
+                cJSON *channel = cJSON_Parse(all);
+                cJSON *messages = cJSON_GetObjectItem(channel, "messages");
+                cJSON *mymessage = cJSON_CreateObject();
+                cJSON *sender = cJSON_CreateString("server");
+                cJSON_AddItemToObject(mymessage, "sender", sender);
+                char temp2[200];
+                sprintf(temp2, "%s just joined", names[i]);
+                cJSON *mycontent = cJSON_CreateString(temp2);
+                cJSON_AddItemToObject(mymessage, "content", mycontent);
+                cJSON_AddItemToArray(messages, mymessage);
+                cJSON *name = cJSON_GetObjectItem(channel, "name");
+                char *myname = cJSON_Print(name);
+                myname[strlen(myname) - 1] = 0;
+                cJSON *fname = cJSON_CreateString(&myname[1]);
+                cJSON *mychannel = cJSON_CreateObject();
+                cJSON_AddItemToObject(mychannel, "name", fname);
+                cJSON_AddItemToObject(mychannel, "messages", messages);
+                char *temp5 = cJSON_Print(mychannel);
+                file = fopen(temp3, "w");
+                fprintf(file, "%s", temp5);
+                fclose(file);
             }
             break;
         }
@@ -475,7 +533,8 @@ void myrefresh()
             cJSON_Delete(answer);
             send(client_socket, respond2, strlen(respond2), 0);
             printf("%s\n", respond2);
-            number[i] += cJSON_GetArraySize(mymessages);
+            int x = cJSON_GetArraySize(mymessages);
+            number[i] += x;
             return;
         }
         if(i == usercounter - 1)
@@ -657,7 +716,6 @@ void myleave()
                 printf("%s\n", respond2);
                 break;
             }
-            strcpy(current[i], "");
             cJSON* answer = cJSON_CreateObject();
             cJSON* type = cJSON_CreateString("Successful");
             cJSON* content = cJSON_CreateString("");
@@ -667,6 +725,36 @@ void myleave()
             cJSON_Delete(answer);
             send(client_socket, respond2, strlen(respond2), 0);
             printf("%s\n", respond2);
+            char temp3[200];
+            sprintf(temp3, "%s.channel.json", current[i]);
+            char *all = malloc(5000);
+            memset(all, 0, 5000);
+            FILE *file = fopen(temp3, "r");
+            for(int j = 0; !feof(file); j++)
+                all[j] = fgetc(file);
+            fclose(file);
+            cJSON *channel = cJSON_Parse(all);
+            cJSON *messages = cJSON_GetObjectItem(channel, "messages");
+            cJSON *mymessage = cJSON_CreateObject();
+            cJSON *sender = cJSON_CreateString("server");
+            cJSON_AddItemToObject(mymessage, "sender", sender);
+            char temp2[200];
+            sprintf(temp2, "%s just left", names[i]);
+            cJSON *mycontent = cJSON_CreateString(temp2);
+            cJSON_AddItemToObject(mymessage, "content", mycontent);
+            cJSON_AddItemToArray(messages, mymessage);
+            cJSON *name = cJSON_GetObjectItem(channel, "name");
+            char *myname = cJSON_Print(name);
+            myname[strlen(myname) - 1] = 0;
+            cJSON *fname = cJSON_CreateString(&myname[1]);
+            cJSON *mychannel = cJSON_CreateObject();
+            cJSON_AddItemToObject(mychannel, "name", fname);
+            cJSON_AddItemToObject(mychannel, "messages", messages);
+            char *temp5 = cJSON_Print(mychannel);
+            file = fopen(temp3, "w");
+            fprintf(file, "%s", temp5);
+            fclose(file);
+            strcpy(current[i], "");
             break;
         }
         if(i == usercounter - 1)
